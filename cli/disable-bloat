@@ -1,0 +1,56 @@
+#/bin/bash
+
+# Return the first adb devices serial number with model matching Ticwatch_E
+# If no device is found matching this critera, then a return code of 1 results
+function get_device_serial_number() {
+    (
+        # A bit yuck but needed to split on newlines
+        IFS='
+'
+        # Look through each of the adb devices (skip the first title line)
+        for device in $(adb devices -l | tail -n +2); do
+            if grep -q 'model:Ticwatch_E' <<< "$device"; then
+                # Ticwatch found - extract the serial number
+                local serial_number=$(echo $device | awk '{print $1}')
+                echo $serial_number
+                return 0
+            fi
+        done
+        return 1
+    )
+}
+
+# Prints a bold and blue message to stdout containing the content of arg1
+function print_step_start() {
+    local msg=$1
+    # Print a divider line running the full width
+    printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+    tput bold; tput setaf 4; echo "$msg"; tput sgr0
+}
+
+# 1. Find Ticwatch
+if serial_number=$(get_device_serial_number); then
+    print_step_start "1) Ticwatch_E with serial number '$serial_number' found"
+else
+    echo "No adb device with model 'Ticwatch_E' found"
+    exit 1
+fi
+
+adb_args="-s $serial_number"
+
+# 2. Copy script to Ticwatch
+script_src_path=tw-disable-bloat.sh
+script_dst_path=/sdcard/Download/$(basename $script_src_path)
+print_step_start "2) Pushing '$script_src_path' to Ticwatch"
+adb $adb_args push $script_src_path $script_dst_path
+
+# 3. Run script
+print_step_start "3) Running '$script_src_path' on Ticwatch"
+adb $adb_args shell sh $script_dst_path
+
+# 4. Delete script from Ticwatch
+print_step_start "4) Cleaning up '$script_src_path' on Ticwatch"
+adb $adb_args shell rm $script_dst_path
+
+# Print a divider line running the full width to round things off
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -

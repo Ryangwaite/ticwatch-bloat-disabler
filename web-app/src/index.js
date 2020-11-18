@@ -11,3 +11,6 @@ document.getElementById("connect-usb-btn")
 document.getElementById("connect-adb-btn")
         .addEventListener("click", () => connectionManager.connectAdb());
 
+document.getElementById("disconnect-usb-adb-btn")
+        .addEventListener("click", () => connectionManager.closeConnection());
+

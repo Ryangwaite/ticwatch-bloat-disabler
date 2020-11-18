@@ -17,6 +17,7 @@ export default class ConnectionManager {
         // Bind methods to this class so we can call them correctly from eventhandlers
         this.initializeUsbConnection = this.initializeUsbConnection.bind(this);
         this.connectAdb = this.connectAdb.bind(this);
+        this.closeConnection = this.closeConnection.bind(this);
     };
 
     /**
@@ -41,7 +42,7 @@ export default class ConnectionManager {
      * Prompts the user on the watch to allow this browser to create an ADB connection.
      */
     async connectAdb(watchPromptCallback = (productName) => {
-        console.log(`Accept the ADB connection on your ${productName} watch.`);
+        console.warn(`Accept the ADB connection on your ${productName} watch.`);
     }) {    
         
         if (this._webUsbConnection && this._webUsbConnection.isAdb()) {
@@ -59,4 +60,15 @@ export default class ConnectionManager {
         }
     };
 
+    /**
+     * Close the ADB and USB connection
+     */
+    async closeConnection() {
+        if (this._webUsbConnection) {
+            this._webUsbConnection.close();
+            console.info("Successfully terminated the USB Connection");
+        } else {
+            console.warn("Tried to disconnect a device that wasn't connected");
+        }
+    };
 };

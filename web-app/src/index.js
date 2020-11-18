@@ -1,28 +1,13 @@
-import { Adb } from 'webadb';
+import ConnectionManager from './ConnectionManager';
 
 
-let webusb = null;
-let state;
 
+const connectionManager = new ConnectionManager;
 
-/**
- * Prompt user with chrome dialog to select the ADB device
- */
-async function connect() {
+// Bind click listeners
+document.getElementById("connect-usb-btn")
+        .addEventListener("click", () => connectionManager.initializeUsbConnection());
 
-    console.log(`webusb is ${webusb}`);
-    
-    try {
-        // Prompt user to select adb device in chrome dialogue
-        webusb = await Adb.open("WebUSB"); // "WebUSB" is the only allowed transport here
-    } catch (error) {
-        console.warn("No ADB device selected");
-        return;
-    }
+document.getElementById("connect-adb-btn")
+        .addEventListener("click", () => connectionManager.connectAdb());
 
-};
-
-export default connect;
-
-// need to use webpack expose-loader to expose module to global object for onclickreferences
-// to be able to access the methods

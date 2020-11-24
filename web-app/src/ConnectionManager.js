@@ -15,11 +15,13 @@ export default class ConnectionManager {
         this._webUsbConnection = null;
         this._adbConnection = null;
         this._state = ConnectionManagerState.DISCONNECTED;
+        this._textDecoder = new TextDecoder(); // used for decoding all received command outputs
 
         // Bind methods to this class so we can call them correctly from eventhandlers
         this.initializeUsbConnection = this.initializeUsbConnection.bind(this);
         this.connectAdb = this.connectAdb.bind(this);
         this.closeConnection = this.closeConnection.bind(this);
+        this.runShellCmd = this.runShellCmd.bind(this);
     };
 
     get state() {
@@ -102,4 +104,25 @@ export default class ConnectionManager {
             console.info("Successfully terminated the USB Connection");
         }
     };
+
+    /**
+     * Runs the 'cmd' on the watch and returns the output.
+     * 
+     * @param {string} cmd shell Command to run on the watch over ADB connection
+     * @throws {string} when the ConnectionManagers state is not ADB_CONNECTED
+     */
+    async runShellCmd(cmd) {
+        if (this._state !== ConnectionManagerState.ADB_CONNECTED) {
+            throw "Cannot run shell commands without an active ADB connection";
+        }
+
+        // TODO: Add some error handling around this
+        let shell = await this._adbConnection.shell(cmd);
+        let responseBundle = await shell.receive();
+        let output = this._textDecoder.decode(responseBundle.data);
+                
+        console.debug(`cmd: ${cmd}\noutput: ${output}`);
+
+        return output;
+    }
 };

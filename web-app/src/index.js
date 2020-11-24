@@ -14,3 +14,11 @@ document.getElementById("connect-adb-btn")
 document.getElementById("disconnect-usb-adb-btn")
         .addEventListener("click", () => connectionManager.closeConnection());
 
+document.getElementById("send-cmd-form")
+        .addEventListener("submit", (event) => {
+            event.preventDefault();
+            const cmd = document.getElementById("cmd-text-input").value;
+
+            // Send the command
+            connectionManager.runShellCmd(cmd);
+        });

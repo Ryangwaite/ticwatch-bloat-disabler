@@ -1,8 +1,10 @@
 # Ticwatch Bloat Disabler
 
-A scripted version of the steps explained in ['Make your Ticwatch smoother than ever disabling TicSystem via ADB!']([https://link](https://forum.xda-developers.com/wear-os/development/make-ticwatch-smoother-disabling-t3951734))
+A scripted version of the steps explained in ['Make your Ticwatch smoother than ever disabling TicSystem via ADB!'](https://forum.xda-developers.com/wear-os/development/make-ticwatch-smoother-disabling-t3951734)
 
 > **Disclaimer**: Like the author in the post above, i also am not an expert and have no idea if doing this can damage your device. I accept no responsibility for damage you do to anything. Proceed at your own risk.
+
+This leverages the awesome [wedadb.js](https://github.com/webadb/webadb.js) package to communicate with the watch, as such you don't need any android tools installed on your host machine. 
 
 ## Scripts
 

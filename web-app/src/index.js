@@ -1,6 +1,5 @@
+import './style.less'; // Js will dynamically add the CSS transpilation in the <head> of the webpage
 import ConnectionManager from './ConnectionManager';
-
-
 
 const connectionManager = new ConnectionManager;
 

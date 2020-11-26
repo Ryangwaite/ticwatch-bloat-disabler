@@ -23,4 +23,21 @@ module.exports = {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist')
     },
+    module: {
+        rules: [
+            {
+                /**
+                 * Support importing less files in Js with:
+                 * import './styles.less';
+                 * Note: the loaders run in reverse order i.e. less -> css -> style (Js)
+                 */
+                test: /\.less$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'less-loader'
+                ], 
+            },
+        ],
+    },
 };

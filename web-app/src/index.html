@@ -1,26 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ticwatch Bloat Disabler</title>
 </head>
+
 <body>
-    <header>
-        <h1>Ticwatch Bloat Disabler</h1>
+
+    <header class="header">
+        <h1 class="header__title">Ticwatch Bloat Disabler</h1>
     </header>
-    <section>
-        <button id="connect-usb-btn">Connect USB</button>
-        <button id="connect-adb-btn">Connect ADB</button>
-        <button id="disconnect-usb-adb-btn">Disconnect USB and ADB</button>
-        <br>
-        <form id="send-cmd-form">
-            Command to run on watch: <input type="text" name="cmd" id="cmd-text-input">
-            <input type="submit" value="Send">
-        </form>
-    </section>
-    <footer style="position: fixed; bottom: 0px; background-color: aqua;">
-        Todo: Footer
-    </footer>
+
+    <div class="panel-container">
+
+        <!-- The controls and description go in here -->
+        <div class="panel-container__left-panel">
+            <p class="left-panel__intro-text">
+                Mobvoi installs a lot of bloat on the watch which severly drains the battery and causes it to lag (see XDA for more info). If you don’t use any mobvoi applications then this is the tool for you. <br>
+                <br>
+                This tool leverages the awesome wedadb.js to communicate with your TicWatch. It goes through the package list below and disables each one individually. The whole operation occurs in your browser so you don’t need any android tools installed on your host machine.<br>
+                <br>
+                Note: It doesn’t support disabling a subset of packages.<br>
+            </p>
+            <section>
+                <button id="connect-usb-btn">Connect USB</button>
+                <button id="connect-adb-btn">Connect ADB</button>
+                <button id="disconnect-usb-adb-btn">Disconnect USB and ADB</button>
+                <br>
+                <form id="send-cmd-form">
+                    Command to run on watch: <input type="text" name="cmd" id="cmd-text-input">
+                    <input type="submit" value="Send">
+                </form>
+            </section>
+            <footer>
+                <img src="" alt="GitHub logo"><span>Edit on GitHub</span>
+            </footer>
+        </div>
+
+        <!-- The status displays go in here -->
+        <div class="panel-container__right-panel">
+            <div class="right-panel__watch-stats-container">
+                <p class="watch-stats-container__disconnected-text">No device connected</p>
+            </div>
+            <table class="right-panel__table">
+                <tr><th class="table__header" colspan="2">Package</th></tr>
+                <tr><td class="table__item" colspan="2">com.mobvoi.wear.fitness.aw</th></tr>
+                <tr><td class="table__item" colspan="2">com.mobvoi.wear.social.aw</th></tr>
+                <tr><td class="table__item" colspan="2">com.mobvoi.wear.account.aw</th></tr>
+                <tr><td class="table__item" colspan="2">com.mobvoi.wear.heartrate.aw</th></tr>
+                <tr><td class="table__item" colspan="2">com.mobvoi.wear.health.aw</th></tr>
+                <tr><td class="table__item" colspan="2">com.mobvoi.companion.aw</th></tr>
+                <tr><td class="table__item" colspan="2">com.mobvoi.wear.watchface.aw</th></tr>
+                <tr><td class="table__item" colspan="2">com.mobvoi.wear.system.aw</th></tr>
+            </table>
+        </div>
+    </div>
 </body>
+
 </html>

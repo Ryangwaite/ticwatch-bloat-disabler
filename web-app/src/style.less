@@ -1,3 +1,8 @@
+/*
+ * The classes in here follow the BEM naming convention for the generated CSS
+ * (not that it is really needed on a project of this size)
+ */
+
 
 /* Colors */
 // Note: probably need another 2 or 4 shades per color to make this look better
@@ -79,5 +84,105 @@
 
 
 body {
-    background-color: #FFFFFF;
+    background-color: white;
+}
+
+
+.header {
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 24px;
+
+    &__title {
+        font-size: @font-size-72;
+        border-bottom: @dimens-4 solid @neutral-500;
+        text-align: center;
+        display: inline;
+        margin: unset;
+        padding-left: @dimens-32;
+        padding-right: @dimens-32;
+        font-weight: bold;
+    }
+}
+
+
+.panel-container {
+
+    display: flex;
+    justify-content: center;
+
+    &__left-panel {
+        border: 1px solid black; // temporary while i adjust layout bounds
+        max-width: @dimens-640;
+        margin-right: @dimens-48;
+    }
+    
+    &__right-panel {
+        border: 1px solid black; // temporary while i adjust layout bounds
+        margin-left: @dimens-48;
+    }
+}
+
+// Dont want to nest too deep in this so split it out of the .panel-container block
+.left-panel {
+
+    &__intro-text {
+        font-size: @font-size-24;
+        line-height: @dimens-48;
+        text-align: center;
+    }
+}
+
+
+// TODO: add remainder of left-panel item styling
+
+
+
+// Dont want to nest too deep in this so split it out of the .panel-container block
+.right-panel {
+
+    &__watch-stats-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: @dimens-4 solid @neutral-300;
+        border-radius: @dimens-12;
+        height: @dimens-128;
+        min-width: @dimens-512;
+    }
+
+    &__table {
+        border: @dimens-4 solid @neutral-300;
+        border-radius: @dimens-12;
+        border-collapse: separate;
+        border-spacing: 0px;
+    }
+}
+
+
+.watch-stats-container__disconnected-text {
+    font-weight: bold;
+}
+
+
+.table {
+
+    @cell-padding: @dimens-12;
+
+    &__header {
+        background-color: @neutral-300;
+        color: @neutral-100;
+        padding: @cell-padding;
+    }
+
+    &__item {
+        // background-color: @neutral-100;
+        text-align: center;
+        padding: @cell-padding;
+        border-top: @dimens-4 solid @neutral-300;
+    }
 }

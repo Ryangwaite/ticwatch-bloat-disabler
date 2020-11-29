@@ -135,6 +135,27 @@ body {
         line-height: @dimens-48;
         text-align: center;
     }
+
+    &__warning-container {
+        display: flex;
+        align-items: center;
+        border: @dimens-4 solid @accent-yellow-400; // temporary while i adjust layout bounds
+        border-radius: @dimens-24;
+        background-color: @accent-yellow-100;
+    }
+}
+
+.warning-container {
+
+    &__icon {
+        border: 1px solid black; // temporary while i adjust layout bounds
+    }
+
+    &__text {
+        font-size: @font-size-18;
+        color: @neutral-500;
+        border: 1px solid black; // temporary while i adjust layout bounds
+    }
 }
 
 

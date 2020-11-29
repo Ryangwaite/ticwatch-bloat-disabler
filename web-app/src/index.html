@@ -17,14 +17,18 @@
 
         <!-- The controls and description go in here -->
         <div class="panel-container__left-panel">
-            <p class="left-panel__intro-text">
-                Mobvoi installs a lot of bloat on the watch which severly drains the battery and causes it to lag (see XDA for more info). If you don’t use any mobvoi applications then this is the tool for you. <br>
-                <br>
-                This tool leverages the awesome wedadb.js to communicate with your TicWatch. It goes through the package list below and disables each one individually. The whole operation occurs in your browser so you don’t need any android tools installed on your host machine.<br>
-                <br>
-                Note: It doesn’t support disabling a subset of packages.<br>
-            </p>
-            <section>
+            <section class="left-panel__intro-text">
+                <p>Mobvoi installs a lot of bloat on the watch which severly drains the battery and causes it to lag (see XDA for more info). If you don’t use any mobvoi applications then this is the tool for you.</p>
+                <p>This tool leverages the awesome wedadb.js to communicate with your TicWatch. It goes through the package list below and disables each one individually. The whole operation occurs in your browser so you don’t need any android tools installed on your host machine.</p>
+                <p>Note: It doesn’t support disabling a subset of packages.</p>
+            </section>
+            <section class="left-panel__warning-container">
+                <img class= "warning-container__icon" src="" alt="Warning icon">
+                <p class="warning-container__text">
+                    I’m not an expert and have no idea if doing this can damage your device. I accept no responsibility for damage you do to anything. You should check out the Github repository to fully understand what this tool is doing. Proceed at your own risk.
+                </p>
+            </section>
+            <div>
                 <button id="connect-usb-btn">Connect USB</button>
                 <button id="connect-adb-btn">Connect ADB</button>
                 <button id="disconnect-usb-adb-btn">Disconnect USB and ADB</button>
@@ -33,7 +37,7 @@
                     Command to run on watch: <input type="text" name="cmd" id="cmd-text-input">
                     <input type="submit" value="Send">
                 </form>
-            </section>
+            </div>
             <footer>
                 <img src="" alt="GitHub logo"><span>Edit on GitHub</span>
             </footer>

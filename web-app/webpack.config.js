@@ -21,7 +21,8 @@ module.exports = {
     ],
     output: {
         filename: 'main.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '', // This is needed to fix stupid "Automatic publicPath is not supported in this browser" error 
     },
     module: {
         rules: [
@@ -38,6 +39,18 @@ module.exports = {
                     'less-loader'
                 ], 
             },
+            {
+                test: /\.(png|svg)$/,
+                type: 'asset/resource'
+            },
+            {
+                /**
+                 * Copy the referenced images/* from template html in src/
+                 * into the dist/ directory and replace name with a hash
+                 */
+                test: /\.(html)$/,
+                use: ['html-loader'],
+            }
         ],
     },
 };

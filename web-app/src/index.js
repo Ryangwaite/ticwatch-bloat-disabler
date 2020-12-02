@@ -4,20 +4,15 @@ import ConnectionManager from './ConnectionManager';
 const connectionManager = new ConnectionManager;
 
 // Bind click listeners
-document.getElementById("connect-usb-btn")
-        .addEventListener("click", () => connectionManager.initializeUsbConnection());
+document.getElementById("connection-btn")
+    .addEventListener("click", async () => {
+        await connectionManager.initializeUsbConnection();
 
-document.getElementById("connect-adb-btn")
-        .addEventListener("click", () => connectionManager.connectAdb());
+        // TODO: Add a toast while waiting for adb connection to be accepted
 
-document.getElementById("disconnect-usb-adb-btn")
-        .addEventListener("click", () => connectionManager.closeConnection());
+        await connectionManager.connectAdb(); // I don't think i really need to wait on this one
+    });
 
-document.getElementById("send-cmd-form")
-        .addEventListener("submit", (event) => {
-            event.preventDefault();
-            const cmd = document.getElementById("cmd-text-input").value;
 
-            // Send the command
-            connectionManager.runShellCmd(cmd);
-        });
+// document.getElementById("disconnect-usb-adb-btn")
+//     .addEventListener("click", () => connectionManager.closeConnection());

@@ -143,24 +143,71 @@ body {
         border-radius: @dimens-24;
         background-color: @accent-yellow-100;
     }
+
+    &__button-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        border: 1px solid black; // temporary while i adjust layout bounds
+    }
 }
 
 .warning-container {
 
+    @horizontal-margin: @dimens-32;
+
     &__icon {
-        border: 1px solid black; // temporary while i adjust layout bounds
+        // border: 1px solid black; // temporary while i adjust layout bounds
+        width: @dimens-32;
+        height: auto;
+        margin: 0px @horizontal-margin;
     }
 
     &__text {
         font-size: @font-size-18;
         color: @neutral-500;
-        border: 1px solid black; // temporary while i adjust layout bounds
+        // border: 1px solid black; // temporary while i adjust layout bounds
+        padding: 0px @horizontal-margin;
     }
 }
 
 
 // TODO: add remainder of left-panel item styling
+.button-container {
 
+    &__btn {
+        padding: @dimens-12;
+        width: @dimens-128;
+        border-radius: @dimens-24;
+        border: none;
+        margin: @dimens-12;
+        color: @neutral-100;
+        font-weight: bold;
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+        &:focus {
+            outline: 0; // Hide the rectangular border that appears when clicking
+        }
+
+        &--enabled {
+            background-color: @primary-300;
+            border: 2px solid @primary-400;
+
+            &:hover {
+                background-color: @primary-400;
+            }
+
+            &:active {
+                filter: none; // remove drop shadow while mouse is clicked
+            }
+        }
+    
+        &--disabled {
+            background-color: @neutral-200;
+            border: 2px solid @neutral-300;
+        }
+    }    
+}
 
 
 // Dont want to nest too deep in this so split it out of the .panel-container block

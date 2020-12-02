@@ -125,4 +125,72 @@ export default class ConnectionManager {
 
         return output;
     }
+
+    /**
+     * Queries the connected device for:
+     *  - model
+     *  - serial number
+     *  - Android version
+     *  - battery percentage
+     * 
+     * @returns an object where the keys are those above and values are that queried from device
+     */
+    async getDeviceStats() {
+
+        /**
+         * Note: from testing i realised that each of these asyncs operations
+         * must complete synchronously for it to work. I can't start all commands
+         * then wait on the results of them all at once. 
+         */
+
+        console.debug("Entered getDeviceStats()");
+
+        /**
+         * This cmd returns:
+         *
+         * $ getprop ro.product.model                                                                                                                                                                  
+         * Ticwatch E
+         */
+        let model = await this.runShellCmd("getprop ro.product.model")
+                .then(result => result.trim());
+
+        /**
+         * This cmd returns:
+         * 
+         * $ getprop ro.serialno                                                                                                                                                                       
+         * M6600TB1234F
+         */
+        let serialNo = await this.runShellCmd("getprop ro.serialno")
+                .then(result => result.trim());
+
+        /**
+         * This cmd returns:
+         * 
+         * $ getprop ro.build.version.release                                                                                                                                                          
+         * 8.0.0
+         */
+        let androidVersion = await this.runShellCmd("getprop ro.build.version.release")
+                .then(result => result.trim());
+
+        /**
+         * This cmd returns:
+         * 
+         * $ dumpsys battery | grep level                                                                                                                                                            
+         *   level: 100
+         * 
+         * The value is then extracted.
+         */
+        let batteryPercent = await this.runShellCmd("dumpsys battery | grep level")
+                .then(value => {
+                    const items = value.split(" ");
+                    return items[items.length - 1].trim();
+                });
+
+        return {
+            "model": model,
+            "serialNo": serialNo,
+            "androidVersion": androidVersion,
+            "batteryPercent": batteryPercent
+        };
+    }
 };

@@ -41,8 +41,14 @@
 
         <!-- The status displays go in here -->
         <div class="panel-container__right-panel">
-            <div class="right-panel__watch-stats-container">
-                <p class="watch-stats-container__disconnected-text">No device connected</p>
+            <div class="right-panel__watch-stats-container" id="watch-stats-container">
+                <p class="watch-stats-container__text watch-stats-container__text--info">No device connected</p>
+                <div class="watch-stats-container__grid watch-stats-container__grid--hidden">
+                    <span class="grid__item"><span class="item__label">Model: </span><span class="item__value" id="model_status">unknown</span></span>
+                    <span class="grid__item"><span class="item__label">Serial No: </span><span class="item__value" id="serialno_status">unknown</span></span>
+                    <span class="grid__item"><span class="item__label">Android: </span><span class="item__value" id="android_status">unknown</span></span>
+                    <span class="grid__item"><span class="item__label">Battery: </span><span class="item__value" id="battery_status">unknown</span></span>
+                </div>
             </div>
             <table class="right-panel__table">
                 <tr><th class="table__header" colspan="2">Package</th></tr>

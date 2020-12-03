@@ -220,7 +220,7 @@ body {
         border: @dimens-4 solid @neutral-300;
         border-radius: @dimens-12;
         height: @dimens-128;
-        min-width: @dimens-512;
+        width: @dimens-512;
     }
 
     &__table {
@@ -232,10 +232,50 @@ body {
 }
 
 
-.watch-stats-container__disconnected-text {
+.watch-stats-container__text {
+    font-weight: bold;
+
+    // When the "no device connected is displayed"
+    &--info {
+        color: @neutral-500;
+    }
+
+    // When an error message is displayed
+    &--error {
+        color: @accent-red-400;
+    }
+
+    &--hidden {
+        display: none;
+    }
+}
+
+.watch-stats-container__grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    // 2x2 grid
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    justify-items: left;
+
+    &--hidden {
+        display: none;;
+    }
+}
+
+.grid__item {
+    margin-left: @dimens-32;
+}
+
+.item__label {
     font-weight: bold;
 }
 
+.item__value {
+
+}
 
 .table {
 

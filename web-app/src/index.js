@@ -15,9 +15,21 @@ document.getElementById("connection-btn")
         let deviceStats = await connectionManager.getDeviceStats()
                 .then(stats => {
                     console.log("Got device stats from watch: ", stats);
+                    return stats;
                 }).catch(err => {
                     console.error("Failed to get device stats from watch. Error: ", err);
                 });
+
+        // Populate the device stats
+        document.getElementById("model_status").textContent = deviceStats.model;
+        document.getElementById("serialno_status").textContent = deviceStats.serialNo;
+        document.getElementById("android_status").textContent = deviceStats.androidVersion;
+        document.getElementById("battery_status").textContent = `${deviceStats.batteryPercent} %`;
+
+        // Hide the text stats container message and show the retrieved stats
+        document.querySelector("#watch-stats-container > .watch-stats-container__text").classList.add("watch-stats-container__text--hidden");
+        document.querySelector("#watch-stats-container > .watch-stats-container__grid").classList.remove("watch-stats-container__grid--hidden");
+
     });
 
 // document.getElementById("disconnect-usb-adb-btn")

@@ -7,6 +7,7 @@ const ConnectionManagerState = Object.freeze({
     DISCONNECTED:       0,
     USB_CONNECTED:      1,
     ADB_CONNECTED:      2,
+    EXECUTING_CMD:      3,
 });
 
 export default class ConnectionManager {
@@ -22,6 +23,10 @@ export default class ConnectionManager {
         this.connectAdb = this.connectAdb.bind(this);
         this.closeConnection = this.closeConnection.bind(this);
         this.runShellCmd = this.runShellCmd.bind(this);
+        this.getDeviceStats = this.getDeviceStats.bind(this);
+        this.disablePackage = this.disablePackage.bind(this);
+        this.enablePackage = this.enablePackage.bind(this);
+        this.listDisabledPackages = this.listDisabledPackages.bind(this);
     };
 
     get state() {
@@ -108,13 +113,21 @@ export default class ConnectionManager {
     /**
      * Runs the 'cmd' on the watch and returns the output.
      * 
+     * Only one concurrent shell cmd can execute at a time. Trying to run another while one
+     * is currently under way will raise an exception.
+     * 
      * @param {string} cmd shell Command to run on the watch over ADB connection
      * @throws {string} when the ConnectionManagers state is not ADB_CONNECTED
      */
     async runShellCmd(cmd) {
-        if (this._state !== ConnectionManagerState.ADB_CONNECTED) {
+        if (this._state === ConnectionManagerState.EXECUTING_CMD) {
+            throw "A shell command is currently executing. Cannot start another until the current one finishes";
+        } else if (this._state !== ConnectionManagerState.ADB_CONNECTED) {
             throw "Cannot run shell commands without an active ADB connection";
         }
+
+        // Set the state to gaurd against concurrent Shell cmd execution
+        this._state = ConnectionManagerState.EXECUTING_CMD;
 
         // TODO: Add some error handling around this
         let shell = await this._adbConnection.shell(cmd);
@@ -125,6 +138,9 @@ export default class ConnectionManager {
                 this._textDecoder.decode(responseBundle.data) : "";
                 
         console.debug(`cmd: ${cmd}\noutput: ${output}`);
+
+        // Allow new shell commands to be sent
+        this._state = ConnectionManagerState.ADB_CONNECTED;
 
         return output;
     }

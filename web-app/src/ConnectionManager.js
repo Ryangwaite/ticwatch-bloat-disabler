@@ -119,6 +119,8 @@ export default class ConnectionManager {
         // TODO: Add some error handling around this
         let shell = await this._adbConnection.shell(cmd);
         let responseBundle = await shell.receive();
+        shell.close(); // Without this successive shellCmd's can throw an exception.
+
         let output = responseBundle.data !== null ?
                 this._textDecoder.decode(responseBundle.data) : "";
                 

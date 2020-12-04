@@ -29,7 +29,16 @@ document.getElementById("connection-btn")
         // Hide the text stats container message and show the retrieved stats
         document.querySelector("#watch-stats-container > .watch-stats-container__text").classList.add("watch-stats-container__text--hidden");
         document.querySelector("#watch-stats-container > .watch-stats-container__grid").classList.remove("watch-stats-container__grid--hidden");
+    });
 
+document.getElementById("run-btn")
+    .addEventListener("click", async () => {
+        const packageName = "com.mobvoi.wear.fitness.aw";
+        await connectionManager.disablePackage(packageName);
+        console.log(`Disabled package: ${packageName}`);
+
+        let disabledPackages = await connectionManager.listDisabledPackages();
+        console.log("Disabled packages: ", disabledPackages);
     });
 
 // document.getElementById("disconnect-usb-adb-btn")

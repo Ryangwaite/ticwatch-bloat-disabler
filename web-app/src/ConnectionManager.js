@@ -119,7 +119,8 @@ export default class ConnectionManager {
         // TODO: Add some error handling around this
         let shell = await this._adbConnection.shell(cmd);
         let responseBundle = await shell.receive();
-        let output = this._textDecoder.decode(responseBundle.data);
+        let output = responseBundle.data !== null ?
+                this._textDecoder.decode(responseBundle.data) : "";
                 
         console.debug(`cmd: ${cmd}\noutput: ${output}`);
 
@@ -192,5 +193,51 @@ export default class ConnectionManager {
             "androidVersion": androidVersion,
             "batteryPercent": batteryPercent
         };
+    }
+
+    /**
+     * Disables the package on the watch by running a cmd of the form:
+     * 
+     * $ pm disable-user --user 0 <packageName>
+     * 
+     * @param {string} packageName the package to disable on the watch
+     */
+    async disablePackage(packageName) {
+
+        console.debug("Entered 'disablePackage()");
+        
+        const cmd = `pm disable-user --user 0 ${packageName}`;
+
+        await this.runShellCmd(cmd);
+    }
+
+    /**
+     * Enables the package on the watch by running a cmd of the form:
+     * 
+     * $ pm enable <packageName>
+     * 
+     * @param {string} packageName the package to enable on the watch
+     */
+    async enablePackage(packageName) {
+        console.debug("Entered 'enablePackage()");
+
+        const cmd = `pm enable ${packageName}`;
+
+        await this.runShellCmd(cmd);
+    }
+
+    /**
+     * Lists all disabled packages on the watch by running:
+     * 
+     * $ pm list packages -d
+     */
+    async listDisabledPackages() {
+        console.debug("Entered 'listDisabledPackages()");
+
+        const cmd = "pm list packages -d";
+
+        let result = await this.runShellCmd(cmd);
+
+        return result;
     }
 };

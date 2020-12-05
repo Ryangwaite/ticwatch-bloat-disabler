@@ -206,10 +206,10 @@ export default class ConnectionManager {
                 });
 
         return {
-            "model": model,
-            "serialNo": serialNo,
-            "androidVersion": androidVersion,
-            "batteryPercent": batteryPercent
+            model: model,
+            serialNo: serialNo,
+            androidVersion: androidVersion,
+            batteryPercent: batteryPercent
         };
     }
 
@@ -226,6 +226,12 @@ export default class ConnectionManager {
         
         const cmd = `pm disable-user --user 0 ${packageName}`;
 
+        console.log("packageName is: ", packageName);
+
+        if (packageName === "com.mobvoi.wear.health.aw") {
+            throw "i deliberatly fail this just to confirm it works in my testing";
+        }
+ 
         await this.runShellCmd(cmd);
     }
 

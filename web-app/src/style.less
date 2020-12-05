@@ -228,6 +228,7 @@ body {
         border-radius: @dimens-12;
         border-collapse: separate;
         border-spacing: 0px;
+        width: @dimens-512;
     }
 }
 
@@ -287,10 +288,34 @@ body {
         padding: @cell-padding;
     }
 
-    &__item {
-        // background-color: @neutral-100;
-        text-align: center;
+    &__row {
+        display: flex;
+        align-items: center;
         padding: @cell-padding;
         border-top: @dimens-4 solid @neutral-300;
+
+        // Label on the far left, icon on the far right
+        &--visible-status-icon {
+            justify-content: space-between;
+        }
+
+        // Label centered, no icon visible
+        &--hidden-status-icon {
+            justify-content: center;
+        }
+    }
+}
+
+.row {
+    &__package-label {
+
+    }
+    &__status-icon {
+        width: @dimens-32;
+        height: auto;
+
+        &--hidden {
+            display: none;
+        }
     }
 }

@@ -57,6 +57,51 @@ async function connect() {
     document.querySelector("#watch-stats-container > .watch-stats-container__grid").classList.remove("watch-stats-container__grid--hidden");
 
     changeConnectionButtonTo(ConnectionButtonMode.DISCONNECT);
+
+    setRunButtonState(true); // enable it
+}
+
+/**
+ * Disables the packages on the watch one-by-one then reports the 
+ * status in the package table.
+ */
+async function run() {
+
+    // Disable the run button immediately - don't want it being pressed again while this operation
+    // is underway
+    setRunButtonState(false);
+
+    // Read the labels out of the table and DOM elements
+    const tablePackageElements = getTablePackageElements();
+
+    // Disable each package individually and display the result in the DOM
+    for (const packageElement of tablePackageElements) {
+        const packageName = packageElement.packageName;
+
+        // Disable the package
+        let success = true;
+        try {
+            await connectionManager.disablePackage(packageName);
+        } catch (err) {
+            success = false;
+        }
+
+        let statusImg = packageElement.tableDataElement.querySelector("img");
+
+        // Set the icon accordingly (defaults to a tick/success so only change on fail)
+        if (!success) {
+            statusImg.setAttribute("src", cross);
+        }
+
+        // TODO: probably should put a tooltip with fail message on icon if failed
+
+        // Unhide the status img in the dom
+        statusImg.classList.remove("row__status-icon--hidden");
+
+        // Shift the label from the center to the left, show the icon on the right
+        packageElement.tableDataElement.classList.remove("table__row--hidden-status-icon");
+        packageElement.tableDataElement.classList.add("table__row--visible-status-icon");
+    }
 }
 
 /**
@@ -71,6 +116,8 @@ async function disconnect() {
     document.querySelector("#watch-stats-container > .watch-stats-container__grid").classList.add("watch-stats-container__grid--hidden");
 
     changeConnectionButtonTo(ConnectionButtonMode.CONNECT);
+
+    setRunButtonState(false); // disable it
 }
 
 /**
@@ -102,41 +149,29 @@ function changeConnectionButtonTo(newButtonState) {
     }
 }
 
+/**
+ * Disables or enables the button
+ * 
+ * @param {boolean} shouldEnable true enables the button, false disables it
+ */
+function setRunButtonState(shouldEnable) {
+    const runBtn = document.getElementById("run-btn");
+
+    // Clear any event listeners
+    runBtn.removeEventListener("click", run);
+
+    // Clear any enable/disable styles
+    runBtn.classList.remove("button-container__btn--enabled");
+    runBtn.classList.remove("button-container__btn--disabled");
+
+    if (shouldEnable) {
+        runBtn.classList.add("button-container__btn--enabled");
+        runBtn.addEventListener("click", run);
+    } else {
+        runBtn.classList.add("button-container__btn--disabled");
+    }
+}
+
 // Bind click listeners
 changeConnectionButtonTo(ConnectionButtonMode.CONNECT);
-
-document.getElementById("run-btn")
-    .addEventListener("click", async () => {
-
-        // Read the labels out of the table and DOM elements
-        const tablePackageElements = getTablePackageElements();
-
-        // Disable each package individually and display the result in the DOM
-        for (const packageElement of tablePackageElements) {
-            const packageName = packageElement.packageName;
-
-            // Disable the package
-            let success = true;
-            try {
-                await connectionManager.disablePackage(packageName);
-            } catch (err) {
-                success = false;
-            }
-
-            let statusImg = packageElement.tableDataElement.querySelector("img");
-
-            // Set the icon accordingly (defaults to a tick/success so only change on fail)
-            if (!success) {
-                statusImg.setAttribute("src", cross);
-            }
-
-            // TODO: probably should put a tooltip with fail message on icon if failed
-
-            // Unhide the status img in the dom
-            statusImg.classList.remove("row__status-icon--hidden");
-
-            // Shift the label from the center to the left, show the icon on the right
-            packageElement.tableDataElement.classList.remove("table__row--hidden-status-icon");
-            packageElement.tableDataElement.classList.add("table__row--visible-status-icon");
-        }
-    });
+setRunButtonState(false); // Start off as disabled

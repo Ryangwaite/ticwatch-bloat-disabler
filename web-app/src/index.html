@@ -18,9 +18,17 @@
         <!-- The controls and description go in here -->
         <div class="panel-container__left-panel">
             <section class="left-panel__intro-text">
-                <p>Mobvoi installs a lot of bloat on the watch which severly drains the battery and causes it to lag (see XDA for more info). If you don’t use any mobvoi applications then this is the tool for you.</p>
-                <p>This tool leverages the awesome wedadb.js to communicate with your TicWatch. It iterates through the package list on the right and disables each one individually. The whole operation occurs in your browser so you don’t need any android tools installed on your host machine.</p>
-                <p>Note: It doesn’t support disabling a subset of packages.</p>
+                <p class="intro-text__p">Mobvoi installs a lot of bloat on the watch which severly drains the battery and causes it to lag (see <a href="https://forum.xda-developers.com/t/make-your-ticwatch-smoother-than-ever-disabling-ticsystem-via-adb.3951734/">XDA</a> for more info). If you don’t use any Mobvoi applications then this is the tool for you.</p>
+                <p class="intro-text__p">This tool leverages the awesome <a href="https://github.com/webadb/webadb.js">wedadb.js</a> to communicate with your TicWatch. It iterates through the package list on the right and disables each one individually. The whole operation occurs in your browser so you don’t need any android tools installed on your host machine.</p>
+                <p class="intro-text__p">Note: It doesn’t support disabling a subset of packages.</p>
+                <p class="intro-text__p">Before you can use this tool you must have ADB enabled. To do this, grab your watch then complete the following steps:</p>
+                <ol class="intro-text__list">
+                    <li><span>Go to "Settings" -> "System" -> "About"</span></li>
+                    <li><span>Repeatedly tap the "Build number" until it says your a developer</span></li>
+                    <li><span>Return to "Settings" and go to "Developer options"</span></li>
+                    <li><span>Enable the "ADB debugging" switch</span></li>
+                </ol>
+                <p class="intro-text__p">Now your ready to use it.</p>
             </section>
             <section class="left-panel__warning-container">
                 <img class= "warning-container__icon" src="images/warning.svg" alt="Warning icon">

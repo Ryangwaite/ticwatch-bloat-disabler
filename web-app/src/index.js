@@ -34,9 +34,18 @@ function getTablePackageElements() {
 async function connect() {
     await connectionManager.initializeUsbConnection();
 
-    // TODO: Add a modal while waiting for adb connection to be accepted
+    // Show the modal telling the user to accept ADB connection on watch
+    setModalVisibility(true);
 
+    // Await users confirmation to connect over ADB then connect
     await connectionManager.connectAdb();
+
+    // TODO: handle the case where the user does not accept. Also, sometimes the
+    // watch just doesn't even show it or it dissapears quickly
+
+    // Hide the modal
+    setModalVisibility(false);
+
     let deviceStats = await connectionManager.getDeviceStats()
             .then(stats => {
                 console.log("Got device stats from watch: ", stats);
@@ -172,6 +181,25 @@ function setRunButtonState(shouldEnable) {
     }
 }
 
+/**
+ * Shows/hides the modal
+ * 
+ * @param {boolean} shouldShow true to show the modal, false to hide it
+ */
+function setModalVisibility(shouldShow) {
+    const modal = document.getElementById("modal");
+    
+    // Clear any existing modal visibility classes
+    modal.classList.remove("modal--visible");
+
+    if (shouldShow) {
+        modal.classList.add("modal--visible");
+    } // else it is hidden by default
+}
+
 // Bind click listeners
 changeConnectionButtonTo(ConnectionButtonMode.CONNECT);
 setRunButtonState(false); // Start off as disabled
+
+// Make sure the modal is hidden by default
+setModalVisibility(false);

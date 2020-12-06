@@ -114,15 +114,14 @@ body {
 
     display: flex;
     justify-content: center;
+    margin-top: @dimens-48;
 
     &__left-panel {
-        border: 1px solid black; // temporary while i adjust layout bounds
-        max-width: @dimens-640;
+        max-width: @dimens-512;
         margin-right: @dimens-48;
     }
     
     &__right-panel {
-        border: 1px solid black; // temporary while i adjust layout bounds
         margin-left: @dimens-48;
     }
 }
@@ -131,9 +130,22 @@ body {
 .left-panel {
 
     &__intro-text {
-        font-size: @font-size-24;
-        line-height: @dimens-48;
+        font-size: @font-size-20;
+        line-height: @dimens-32;
         text-align: center;
+        margin-bottom: @dimens-24;
+
+        & p:first-child {
+            // No margin on the first paragraph so that the tops of both
+            // columns are aligned
+            margin-block-start: 0; 
+        }
+
+        & p:last-child {
+            // Similar here, make it easy to space the following warning
+            // section without factoring in this
+            margin-block-end: 0;
+        }
     }
 
     &__warning-container {
@@ -142,13 +154,31 @@ body {
         border: @dimens-4 solid @accent-yellow-400; // temporary while i adjust layout bounds
         border-radius: @dimens-24;
         background-color: @accent-yellow-100;
+        margin-bottom: @dimens-24;
     }
 
     &__button-container {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
-        border: 1px solid black; // temporary while i adjust layout bounds
+        margin-bottom: @dimens-24;
+    }
+
+    &__footer a { // yeah, i should probably make a new class for this
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        text-decoration: none;  // remove the default styling
+        color: unset;           // of the <a /> element text
+        width: @dimens-192;
+        margin-left: auto;      // centre the <a /> in the
+        margin-right: auto;     // middle of the column
+        
+        // When any of the <a /> is hovered over bold the text
+        // in the child span
+        &:hover .footer__text { 
+            text-decoration: underline;
+        }
     }
 }
 
@@ -157,33 +187,31 @@ body {
     @horizontal-margin: @dimens-32;
 
     &__icon {
-        // border: 1px solid black; // temporary while i adjust layout bounds
         width: @dimens-32;
         height: auto;
         margin: 0px @horizontal-margin;
+        margin-right: 0px;
     }
 
     &__text {
         font-size: @font-size-18;
+        line-height: @dimens-24;
         color: @neutral-500;
-        // border: 1px solid black; // temporary while i adjust layout bounds
         padding: 0px @horizontal-margin;
     }
 }
 
-
-// TODO: add remainder of left-panel item styling
 .button-container {
 
     &__btn {
         padding: @dimens-12;
-        width: @dimens-128;
+        width: @dimens-192;
         border-radius: @dimens-24;
         border: none;
         margin: @dimens-12;
         color: @neutral-100;
         font-weight: bold;
-        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        font-size: @font-size-20;
 
         &:focus {
             outline: 0; // Hide the rectangular border that appears when clicking
@@ -192,6 +220,7 @@ body {
         &--enabled {
             background-color: @primary-300;
             border: 2px solid @primary-400;
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 
             &:hover {
                 background-color: @primary-400;
@@ -209,6 +238,16 @@ body {
     }    
 }
 
+.footer {
+    &__github-logo {
+        width: @dimens-32;
+    }
+
+    &__text {
+        font-size: @font-size-16;
+    }
+}
+
 
 // Dont want to nest too deep in this so split it out of the .panel-container block
 .right-panel {
@@ -221,6 +260,7 @@ body {
         border-radius: @dimens-12;
         height: @dimens-128;
         width: @dimens-512;
+        margin-bottom: @dimens-32; // 24 is consistent but looked a bit off here
     }
 
     &__table {
@@ -228,13 +268,15 @@ body {
         border-radius: @dimens-12;
         border-collapse: separate;
         border-spacing: 0px;
-        width: @dimens-512;
-    }
-}
+        margin-bottom: @dimens-32; // Theres nothing below here but its future proofed
+        width: @dimens-512 + 8; // This should match the width of the status box so added a few
+    }                           // px's to make that happen. This is a quick fix. I think
+}                               // its cos of how i drew the border on the table.
 
 
 .watch-stats-container__text {
     font-weight: bold;
+    font-size: @font-size-20;
 
     // When the "no device connected is displayed"
     &--info {
@@ -268,14 +310,16 @@ body {
 
 .grid__item {
     margin-left: @dimens-32;
+    font-size: @dimens-16;
 }
 
 .item__label {
     font-weight: bold;
+    font-size: @font-size-18;
 }
 
 .item__value {
-
+    font-size: @font-size-20;
 }
 
 .table {
@@ -286,6 +330,7 @@ body {
         background-color: @neutral-300;
         color: @neutral-100;
         padding: @cell-padding;
+        font-size: @font-size-20;
     }
 
     &__row {
@@ -293,6 +338,7 @@ body {
         align-items: center;
         padding: @cell-padding;
         border-top: @dimens-4 solid @neutral-300;
+        height: @dimens-32;
 
         // Label on the far left, icon on the far right
         &--visible-status-icon {
@@ -308,7 +354,7 @@ body {
 
 .row {
     &__package-label {
-
+        font-size: @font-size-20;
     }
     &__status-icon {
         width: @dimens-32;

@@ -19,7 +19,7 @@
         <div class="panel-container__left-panel">
             <section class="left-panel__intro-text">
                 <p>Mobvoi installs a lot of bloat on the watch which severly drains the battery and causes it to lag (see XDA for more info). If you don’t use any mobvoi applications then this is the tool for you.</p>
-                <p>This tool leverages the awesome wedadb.js to communicate with your TicWatch. It goes through the package list below and disables each one individually. The whole operation occurs in your browser so you don’t need any android tools installed on your host machine.</p>
+                <p>This tool leverages the awesome wedadb.js to communicate with your TicWatch. It iterates through the package list on the right and disables each one individually. The whole operation occurs in your browser so you don’t need any android tools installed on your host machine.</p>
                 <p>Note: It doesn’t support disabling a subset of packages.</p>
             </section>
             <section class="left-panel__warning-container">
@@ -32,9 +32,9 @@
                 <button class="button-container__btn button-container__btn--enabled" id="connection-btn">Connect</button>
                 <button class="button-container__btn button-container__btn--enabled" id="run-btn">Run</button>
             </div>
-            <footer>
+            <footer class="left-panel__footer">
                 <a href="https://github.com/Ryangwaite/ticwatch-bloat-disabler">
-                    <img src="images/GitHub-Mark-64px.png" alt="GitHub logo"><span>Edit on GitHub</span>
+                    <img class="footer__github-logo" src="images/GitHub-Mark-64px.png" alt="GitHub logo"><span class="footer__text">Edit on GitHub</span>
                 </a>
             </footer>
         </div>

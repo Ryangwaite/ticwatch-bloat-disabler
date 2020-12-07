@@ -101,7 +101,7 @@ body {
     margin-top: 0px;
     margin-bottom: 24px;
     
-    // so that the scrolled text doesn't display at the back
+    // so that the scrolled text isn't visible behind the header
     background-color: white;
     z-index: 1;                
 
@@ -114,15 +114,27 @@ body {
         padding-left: @dimens-32;
         padding-right: @dimens-32;
         font-weight: bold;
+
+        // Below these sizes show a smaller font
+        @media screen and (max-width: 1200px) {
+            font-size: @font-size-30;
+            padding-left: @dimens-16;
+            padding-right: @dimens-16;
+        }
+
+        // And then smaller again - this is to prevent the title spilling
+        // onto multiple lines
+        @media screen and (max-width: 405px) {
+            font-size: @font-size-20;
+            padding-left: @dimens-12;
+            padding-right: @dimens-12;
+        }
     }
 }
 
 
 .panel-container {
 
-    // display: flex;
-    // justify-content: center;
-    // margin-top: @dimens-48;
     position: relative; // this is so the left-panel has something to position relative to
 
     @offset-from-browser-top: @dimens-128;
@@ -132,23 +144,49 @@ body {
         display: inline-block;
         max-width: @dimens-512;
         position: absolute;
-        // margin-left: auto;
         margin-right: @panel-centre-margin;
         padding-bottom: @dimens-64; // so that the left-panel scrolls the content up enough
         top: @offset-from-browser-top;
-        right: 50%; // move
+        right: 50%; // move off the right side of the browser by this amount
     }
     
     &__right-panel {
         margin-left: @panel-centre-margin;
         position: fixed;
         top: @offset-from-browser-top;
-        left: 50%; // position left side at the middle
+        left: 50%; // move off the left side of the browser by this amount
 
+    }
+
+    // Below these sizes make it a 1 column layout
+    @media screen and (max-width: 1200px), screen and (max-height: 840px) {
+
+        & {
+            // No longer need to position the left panel relative to this
+            position: static;
+        }
+
+        &__left-panel {
+            display: block;
+            position: static;
+            // Centre content in window
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: @dimens-64;
+        }
+        &__right-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: static;
+            // Centre content in window
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
 }
 
-// Dont want to nest too deep in this so split it out of the .panel-container block
+
 .left-panel {
 
     &__intro-text {
@@ -158,7 +196,7 @@ body {
     &__warning-container {
         display: flex;
         align-items: center;
-        border: @dimens-4 solid @accent-yellow-400; // temporary while i adjust layout bounds
+        border: @dimens-4 solid @accent-yellow-400;
         border-radius: @dimens-24;
         background-color: @accent-yellow-100;
         margin-bottom: @dimens-24;
@@ -189,6 +227,7 @@ body {
     }
 }
 
+
 .intro-text__p {
     font-size: @font-size-20;
     line-height: @dimens-32;
@@ -196,8 +235,8 @@ body {
     hyphens: auto; // makes the justified text look better
 
     &:first-child {
-        // No margin on the first paragraph so that the tops of both
-        // columns are aligned
+        // No margin on the first paragraph so that the top of each
+        // column is aligned
         margin-block-start: 0; 
     }
 
@@ -208,9 +247,12 @@ body {
     }
 
     &:nth-last-of-type(2) {
-        margin-block-end: 0.5em;    // shrink the gap between the second to last paragraph
-    }                               // and trailing list 
+        // shrink the gap between the second to last paragraph
+        // and trailing list 
+        margin-block-end: 0.5em;    
+    }                               
 }
+
 
 .intro-text__list {
     font-size: @font-size-20;
@@ -229,6 +271,7 @@ body {
         }
     }
 }
+
 
 .warning-container {
 
@@ -249,6 +292,7 @@ body {
         text-align: justify;
     }
 }
+
 
 .button-container {
 
@@ -287,6 +331,7 @@ body {
     }    
 }
 
+
 .footer {
     &__github-logo {
         width: @dimens-32;
@@ -298,7 +343,6 @@ body {
 }
 
 
-// Dont want to nest too deep in this so split it out of the .panel-container block
 .right-panel {
 
     &__watch-stats-container {
@@ -309,7 +353,13 @@ body {
         border-radius: @dimens-12;
         height: @dimens-128;
         width: @dimens-512;
-        margin-bottom: @dimens-32; // 24 is consistent but looked a bit off here
+        margin-bottom: @dimens-32;
+
+        // Need to shrink the container below this size as it begins to get cut-off
+        @media screen and (max-width: 540px) {
+            max-width: @dimens-512;
+            width: unset;
+        }
     }
 
     &__table {
@@ -319,13 +369,22 @@ body {
         border-spacing: 0px;
         margin-bottom: @dimens-32; // Theres nothing below here but its future proofed
         width: @dimens-512 + 8; // This should match the width of the status box so added a few
-    }                           // px's to make that happen. This is a quick fix. I think
-}                               // its cos of how i drew the border on the table.
+                                // px's to make that happen. This is a quick fix. I think
+                                // its cos of how i drew the border on the table.
+                                // Need to shrink the container below this size as it begins to get cut-off
+
+        @media screen and (max-width: 540px) {
+            max-width: @dimens-512;
+            width: unset;
+        }
+    }
+}
 
 
 .watch-stats-container__text {
     font-weight: bold;
     font-size: @font-size-20;
+    padding: @dimens-12;
 
     // When the "no device connected is displayed"
     &--info {
@@ -342,6 +401,7 @@ body {
     }
 }
 
+
 .watch-stats-container__grid {
     width: 100%;
     height: 100%;
@@ -357,19 +417,23 @@ body {
     }
 }
 
+
 .grid__item {
     margin-left: @dimens-32;
     font-size: @dimens-16;
 }
+
 
 .item__label {
     font-weight: bold;
     font-size: @font-size-18;
 }
 
+
 .item__value {
     font-size: @font-size-20;
 }
+
 
 .table {
 
@@ -401,6 +465,7 @@ body {
     }
 }
 
+
 .row {
     &__package-label {
         font-size: @font-size-20;
@@ -414,6 +479,7 @@ body {
         }
     }
 }
+
 
 .modal {
     display: none;      // Don't show by default

@@ -374,8 +374,7 @@ body {
                                 // Need to shrink the container below this size as it begins to get cut-off
 
         @media screen and (max-width: 540px) {
-            max-width: @dimens-512;
-            width: unset;
+            width: @dimens-384 + 8;
         }
     }
 }
@@ -452,30 +451,46 @@ body {
         padding: @cell-padding;
         border-top: @dimens-4 solid @neutral-300;
         height: @dimens-32;
-
-        // Label on the far left, icon on the far right
-        &--visible-status-icon {
-            justify-content: space-between;
-        }
-
-        // Label centered, no icon visible
-        &--hidden-status-icon {
-            justify-content: center;
-        }
+        position: relative;
     }
 }
 
 
 .row {
+
+    @margin-outside: @dimens-32;
+    @transtion-duration: 1s;
+
     &__package-label {
         font-size: @font-size-20;
+        margin-left: @margin-outside;
+        margin-right: @margin-outside;
+        transition: width @transtion-duration ease-out;
+        // Centre the text in the middle of the table in the starting position
+        // when the status icon is hidden
+        text-align: center;
+        width: 100%;
+
+        &--move-left {
+            // The text appears outside the span and is left aligned along the
+            // table boundary. I Couldn't achieve this affect any other way.
+            width: 0;
+        }
     }
     &__status-icon {
+        position: absolute;
+        right: 0px;
         width: @dimens-32;
         height: auto;
+        margin-right: @margin-outside;
+        transition: opacity @transtion-duration ease-out;
+        opacity: 1;        
 
         &--hidden {
-            display: none;
+            // display: none won't work here. Needs to use 'visibility' so
+            // the fade-in transition occurs
+            visibility: hidden;
+            opacity: 0;
         }
     }
 }

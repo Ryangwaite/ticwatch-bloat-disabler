@@ -96,6 +96,7 @@ async function run() {
         }
 
         let statusImg = packageElement.tableDataElement.querySelector("img");
+        let packageLabel = packageElement.tableDataElement.querySelector("span");
 
         // Set the icon accordingly (defaults to a tick/success so only change on fail)
         if (!success) {
@@ -104,12 +105,11 @@ async function run() {
 
         // TODO: probably should put a tooltip with fail message on icon if failed
 
-        // Unhide the status img in the dom
+        // Unhide the status img in the dom - it appears on the right of the row
         statusImg.classList.remove("row__status-icon--hidden");
 
-        // Shift the label from the center to the left, show the icon on the right
-        packageElement.tableDataElement.classList.remove("table__row--hidden-status-icon");
-        packageElement.tableDataElement.classList.add("table__row--visible-status-icon");
+        // Shift the label from the center to the left
+        packageLabel.classList.add("row__package-label--move-left");
     }
 }
 

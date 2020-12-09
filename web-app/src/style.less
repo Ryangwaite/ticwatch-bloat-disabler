@@ -354,6 +354,10 @@ body {
         height: @dimens-128;
         width: @dimens-512;
         margin-bottom: @dimens-32;
+        // Couldn't get fade in transition to work unless children were
+        // absolutely positioned and for that to happen their parent must
+        // be non-statically positioned
+        position: relative;
 
         // Need to shrink the container below this size as it begins to get cut-off
         @media screen and (max-width: 540px) {
@@ -380,7 +384,26 @@ body {
 }
 
 
+/* Adds a &--hidden class and fade transitions between showing
+ * and hiding
+ */
+.watch-stats-item-visibility-mixin() {
+    // This is so the spacing of the invisible item doesn't influence
+    // the position of the visible one
+    position: absolute;
+    
+    opacity: 1;
+    transition: opacity 1s ease;
+
+    &--hidden {
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+
 .watch-stats-container__text {
+    .watch-stats-item-visibility-mixin();
     font-weight: bold;
     font-size: @font-size-20;
     padding: @dimens-12;
@@ -394,14 +417,11 @@ body {
     &--error {
         color: @accent-red-400;
     }
-
-    &--hidden {
-        display: none;
-    }
 }
 
 
 .watch-stats-container__grid {
+    .watch-stats-item-visibility-mixin();
     width: 100%;
     height: 100%;
     display: grid;
@@ -410,10 +430,6 @@ body {
     grid-template-rows: auto auto;
     align-items: center;
     justify-items: left;
-
-    &--hidden {
-        display: none;;
-    }
 }
 
 

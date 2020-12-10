@@ -228,9 +228,11 @@ export default class ConnectionManager {
 
         console.log("packageName is: ", packageName);
 
-        if (packageName === "com.mobvoi.wear.health.aw") {
-            throw "i deliberatly fail this just to confirm it works in my testing";
-        }
+        // NOTE: For testing the UI's response when disabling a package
+        //       fails, you can uncomment the following
+        // if (packageName === "com.mobvoi.wear.health.aw") {
+        //     throw "i deliberatly fail this just to confirm it works in my testing";
+        // }
  
         await this.runShellCmd(cmd);
     }

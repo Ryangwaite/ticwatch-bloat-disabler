@@ -124,6 +124,15 @@ async function disconnect() {
     document.querySelector("#watch-stats-container > .watch-stats-container__text").classList.remove("watch-stats-container__text--hidden");
     document.querySelector("#watch-stats-container > .watch-stats-container__grid").classList.add("watch-stats-container__grid--hidden");
 
+    // Remove the status icons from the table and slide the text back to the center
+    const tablePackageElements = getTablePackageElements();
+    for (let packageElement of tablePackageElements) {
+        let statusImg = packageElement.tableDataElement.querySelector("img");
+        let packageLabel = packageElement.tableDataElement.querySelector("span");
+        statusImg.classList.add("row__status-icon--hidden");
+        packageLabel.classList.remove("row__package-label--move-left");
+    }
+
     changeConnectionButtonTo(ConnectionButtonMode.CONNECT);
 
     setRunButtonState(false); // disable it

@@ -76,6 +76,14 @@
 @font-size-72: 72px;
 
 
+/* Media Query width boundaries */
+// These are kinda aribitrary but it works with the layouts below
+@device-width-large: 1200px;
+@device-width-medium: 540px;
+@device-width-small: 425px;
+@device-width-xsmall: 320px;
+
+
 /* Font */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 * {
@@ -116,15 +124,15 @@ body {
         font-weight: bold;
 
         // Below these sizes show a smaller font
-        @media screen and (max-width: 1200px) {
-            font-size: @font-size-30;
+        @media screen and (max-width: @device-width-large) {
+            font-size: @font-size-36;
             padding-left: @dimens-16;
             padding-right: @dimens-16;
         }
 
         // And then smaller again - this is to prevent the title spilling
         // onto multiple lines
-        @media screen and (max-width: 405px) {
+        @media screen and (max-width: @device-width-medium) {
             font-size: @font-size-20;
             padding-left: @dimens-12;
             padding-right: @dimens-12;
@@ -159,7 +167,7 @@ body {
     }
 
     // Below these sizes make it a 1 column layout
-    @media screen and (max-width: 1200px), screen and (max-height: 840px) {
+    @media screen and (max-width: @device-width-large), screen and (max-height: 840px) {
 
         & {
             // No longer need to position the left panel relative to this
@@ -263,8 +271,8 @@ body {
     & li {
         margin-bottom: @dimens-12;
 
-        // Had to wrap the text in a span so that i could increase the gap between
-        // the number and the text
+        // Had to wrap the text in a span so that i could increase the gap
+        // between the number and the text
         & span {
             display: block;
             margin-left: @dimens-12;
@@ -359,26 +367,37 @@ body {
         // be non-statically positioned
         position: relative;
 
-        // Need to shrink the container below this size as it begins to get cut-off
-        @media screen and (max-width: 540px) {
-            max-width: @dimens-512;
-            width: unset;
+        // Need to shrink the container below this size as it begins to get
+        // cut-off
+        @media screen and (max-width: @device-width-medium) {
+            width: @dimens-384;
+        }
+        @media screen and (max-width: @device-width-small) {
+            width: @dimens-256;
         }
     }
 
     &__table {
+
+        // The widths below should match the width of the status box so added a
+        // few px's to make that happen. This is a quick fix. I think its cos
+        // of how i drew the border on the table.
+        @border-width-correction: 8px;
+
         border: @dimens-4 solid @neutral-300;
         border-radius: @dimens-12;
         border-collapse: separate;
         border-spacing: 0px;
         margin-bottom: @dimens-32; // Theres nothing below here but its future proofed
-        width: @dimens-512 + 8; // This should match the width of the status box so added a few
-                                // px's to make that happen. This is a quick fix. I think
-                                // its cos of how i drew the border on the table.
-                                // Need to shrink the container below this size as it begins to get cut-off
+        width: @dimens-512 + 8; 
 
-        @media screen and (max-width: 540px) {
+        // Need to shrink the container below at smaller sizes as it begins to
+        // get cut-off
+        @media screen and (max-width: @device-width-medium) {
             width: @dimens-384 + 8;
+        }
+        @media screen and (max-width: @device-width-small) {
+            width: @dimens-256;
         }
     }
 }
@@ -419,6 +438,17 @@ body {
     }
 }
 
+.status-item-font-size-mixin {
+    font-size: @font-size-20;
+
+    // Use a smaller font at smaller screen sizes
+    @media screen and (max-width: @device-width-medium) {
+        font-size: @font-size-18;
+    }
+    @media screen and (max-width: @device-width-small) {
+        font-size: @font-size-14;
+    }
+}
 
 .watch-stats-container__grid {
     .watch-stats-item-visibility-mixin();
@@ -435,17 +465,17 @@ body {
 
 .grid__item {
     margin-left: @dimens-32;
-    font-size: @dimens-16;
 }
 
 
 .item__label {
+    .status-item-font-size-mixin();
     font-weight: bold;
-    font-size: @font-size-18;
 }
 
 
 .item__value {
+    .status-item-font-size-mixin();
     font-size: @font-size-20;
 }
 
@@ -492,6 +522,18 @@ body {
             // table boundary. I Couldn't achieve this affect any other way.
             width: 0;
         }
+
+        // Need a smaller font at smaller screen sizes so that the table fits
+        @media screen and (max-width: @device-width-medium) {
+            font-size: @font-size-18;
+            margin-left: @margin-outside / 2;
+            margin-right: @margin-outside / 2;
+        }
+        @media screen and (max-width: @device-width-small) {
+            font-size: @font-size-14;
+            margin-left: @dimens-4;
+            margin-right: @dimens-4;
+        }
     }
     &__status-icon {
         position: absolute;
@@ -507,6 +549,16 @@ body {
             // the fade-in transition occurs
             visibility: hidden;
             opacity: 0;
+        }
+
+        // Use a smaller icon on smaller width devices so that the table isn't
+        // pushed slightly off screen
+        @media screen and (max-width: @device-width-medium) {
+            margin-right: @margin-outside / 2;
+        }
+        @media screen and (max-width: @device-width-small) {
+            width: @dimens-16;
+            margin-right: @dimens-4;
         }
     }
 }
@@ -537,5 +589,31 @@ body {
         border: @dimens-4 solid @neutral-300;
         border-radius: @dimens-12;
         padding: @dimens-48;
+
+        // Shrink the text at smaller device widths
+        @media screen and (max-width: @device-width-large) {
+            font-size: @font-size-30;
+            padding: @dimens-32;
+            max-width: 60%;
+            max-height: unset;
+        }
+        @media screen and (max-width: @device-width-medium) {
+            font-size: @font-size-24;
+            padding: @dimens-24;
+            max-width: 80%;
+            max-height: unset;
+        }
+        @media screen and (max-width: @device-width-small) {
+            font-size: @font-size-20;
+            padding: @dimens-16;
+            max-width: 80%;
+            max-height: unset;
+        }
+        @media screen and (max-width: @device-width-xsmall) {
+            font-size: @font-size-18;
+            padding: @dimens-12;
+            max-width: 90%;
+            max-height: unset;
+        }
     }
 }

@@ -53,6 +53,10 @@ To run the development server:
 ```bash
 npm start
 ```
+To deploy the web tool on Github pages run:
+```bash
+npm run-script deploy
+```
 
 Design documentation is available [here](docs/web-app/design.md)
 

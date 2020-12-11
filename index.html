@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticwatch Bloat Disabler</title>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1 class="header__title">Ticwatch Bloat Disabler</h1>
+    </header>
+
+    <div class="panel-container">
+
+        <!-- The controls and description go in here -->
+        <div class="panel-container__left-panel">
+            <section class="left-panel__intro-text">
+                <p class="intro-text__p">Mobvoi installs a lot of bloat on the watch which severly drains the battery and causes it to lag (see <a href="https://forum.xda-developers.com/t/make-your-ticwatch-smoother-than-ever-disabling-ticsystem-via-adb.3951734/">XDA</a> for more info). If you don’t use any Mobvoi applications then this is the tool for you.</p>
+                <p class="intro-text__p">This tool leverages the awesome <a href="https://github.com/webadb/webadb.js">wedadb.js</a> to communicate with your TicWatch. It iterates through the package list on the right and disables each one individually. The whole operation occurs in your browser so you don’t need any android tools installed on your host machine.</p>
+                <p class="intro-text__p">Note: It doesn’t support disabling a subset of packages.</p>
+                <p class="intro-text__p">Before you can use this tool you must have ADB enabled. To do this, grab your watch then complete the following steps:</p>
+                <ol class="intro-text__list">
+                    <li><span>Go to "Settings" -> "System" -> "About"</span></li>
+                    <li><span>Repeatedly tap the "Build number" until it says your a developer</span></li>
+                    <li><span>Return to "Settings" and go to "Developer options"</span></li>
+                    <li><span>Enable the "ADB debugging" switch</span></li>
+                </ol>
+                <p class="intro-text__p">Now your ready to use it.</p>
+            </section>
+            <section class="left-panel__warning-container">
+                <img class= "warning-container__icon" src="16e6dbdaf0f0359a2998.svg" alt="Warning icon">
+                <p class="warning-container__text">
+                    I’m not an expert and have no idea if doing this can damage your device. I accept no responsibility for damage you do to anything. You should check out the Github repository to fully understand what this tool is doing. Proceed at your own risk.
+                </p>
+            </section>
+            <div class="left-panel__button-container">
+                <button class="button-container__btn button-container__btn--enabled" id="connection-btn">Connect</button>
+                <button class="button-container__btn button-container__btn--enabled" id="run-btn">Run</button>
+            </div>
+            <footer class="left-panel__footer">
+                <a href="https://github.com/Ryangwaite/ticwatch-bloat-disabler">
+                    <img class="footer__github-logo" src="b039b2d83982c8256af3.png" alt="GitHub logo"><span class="footer__text">Edit on GitHub</span>
+                </a>
+            </footer>
+        </div>
+
+        <!-- The status displays go in here -->
+        <div class="panel-container__right-panel">
+            <div class="right-panel__watch-stats-container" id="watch-stats-container">
+                <p class="watch-stats-container__text watch-stats-container__text--info">No device connected</p>
+                <div class="watch-stats-container__grid watch-stats-container__grid--hidden">
+                    <span class="grid__item"><span class="item__label">Model: </span><span class="item__value" id="model_status">unknown</span></span>
+                    <span class="grid__item"><span class="item__label">Serial No: </span><span class="item__value" id="serialno_status">unknown</span></span>
+                    <span class="grid__item"><span class="item__label">Android: </span><span class="item__value" id="android_status">unknown</span></span>
+                    <span class="grid__item"><span class="item__label">Battery: </span><span class="item__value" id="battery_status">unknown</span></span>
+                </div>
+            </div>
+            <table class="right-panel__table" id="package-table">
+                <tr>
+                    <th class="table__header" colspan="1">Package</th>
+                </tr>
+                <tr>
+                    <td class="table__row" colspan="1">
+                        <span class="row__package-label">com.mobvoi.wear.fitness.aw</span>
+                        <img src="d3b6dd101077d4bebf0e.svg" alt="status-icon" class="row__status-icon row__status-icon--hidden">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table__row" colspan="1">
+                        <span class="row__package-label">com.mobvoi.wear.social.aw</span>
+                        <img src="d3b6dd101077d4bebf0e.svg" alt="status-icon" class="row__status-icon row__status-icon--hidden">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table__row" colspan="1">
+                        <span class="row__package-label">com.mobvoi.wear.account.aw</span>
+                        <img src="d3b6dd101077d4bebf0e.svg" alt="status-icon" class="row__status-icon row__status-icon--hidden">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table__row" colspan="1">
+                        <span class="row__package-label">com.mobvoi.wear.heartrate.aw</span>
+                        <img src="d3b6dd101077d4bebf0e.svg" alt="status-icon" class="row__status-icon row__status-icon--hidden">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table__row" colspan="1">
+                        <span class="row__package-label">com.mobvoi.wear.health.aw</span>
+                        <img src="d3b6dd101077d4bebf0e.svg" alt="status-icon" class="row__status-icon row__status-icon--hidden">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table__row" colspan="1">
+                        <span class="row__package-label">com.mobvoi.companion.aw</span>
+                        <img src="d3b6dd101077d4bebf0e.svg" alt="status-icon" class="row__status-icon row__status-icon--hidden">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table__row" colspan="1">
+                        <span class="row__package-label">com.mobvoi.wear.watchface.aw</span>
+                        <img src="d3b6dd101077d4bebf0e.svg" alt="status-icon" class="row__status-icon row__status-icon--hidden">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table__row" colspan="1">
+                        <span class="row__package-label">com.mobvoi.wear.system.aw</span>
+                        <img src="d3b6dd101077d4bebf0e.svg" alt="status-icon" class="row__status-icon row__status-icon--hidden">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal modal--visible" id="modal">
+        <span class="modal__text">Press "Ok" at the "Allow Debugging?" prompt on the watch</span>
+    </div>
+<script src="main.js"></script></body>
+
+</html>
